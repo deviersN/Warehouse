@@ -7,42 +7,10 @@ import (
     "os"
 )
 
-type Point struct {
-    x int
-    y int
-}
-
-type Entrepot struct {
-    Point
-    turns int
-}
-
-type Colis struct {
-    name string
-    Point
-    color string
-}
-
-type Transpalette struct {
-    name string
-    Point
-}
-
-type Camion struct {
-    Point
-    load int
-    cooldown int
-}
-
-type Warehouse struct {
-    Entrepot
-    colis []Colis
-    transp []Transpalette
-    Camion
-}
-
 func dataReader(filename string) (bool) {
-	file, err := os.Open(filename)
+    var warehouse Warehouse
+
+    file, err := os.Open(filename)
     if err != nil {
         log.Fatal(err)
     }
@@ -56,10 +24,10 @@ func dataReader(filename string) (bool) {
         lineType := identificator(text)
         fmt.Println("id: ", lineType)
 
-        dataStorer(text)
+        warehouse = dataStorer(warehouse, lineType, text)
         //	fmt.Sscanf(text, "%dx%dx%d", &nb1, &nb2, &nb3)
 	}
-
+    fmt.Println(warehouse)
     if err := scanner.Err(); err != nil {
         log.Fatal(err)
         return false
@@ -117,10 +85,22 @@ func compareArray(array_1 [4]int, array_2 [4]int, size int) (ret bool) {
     return
 }
 
-func dataStorer(line string) (bool) {
-    var w, h, t int
-
-    fmt.Sscanf(line, "%d %d %d", &w, &h, &t)
-    fmt.Println("->", w, h, t)
-    return true
+func dataStorer(warehouse Warehouse, lineType int, line string) (Warehouse) {
+    switch lineType {
+    case 1:
+        fmt.Sscanf(line, "%d %d %d", &warehouse.entrepot.x, &warehouse.entrepot.y, &warehouse.entrepot.turns)
+    case 2:
+        var colis Colis
+        fmt.Sscanf(line, "%s %d %d %s", &colis.name, &colis.x, &colis.y, &colis.color)
+        warehouse.colis = append(warehouse.colis, colis)
+    case 3:
+        var transpalette Transpalette
+        fmt.Sscanf(line, "%s %d %d", &transpalette.name, &transpalette.x, &transpalette.y)
+        warehouse.transp = append(warehouse.transp, transpalette)
+    case 4:
+        fmt.Sscanf(line, "%d %d %d %d", &warehouse.camion.x, &warehouse.camion.y, &warehouse.camion.load, &warehouse.camion.cooldown)
+    default:
+        fmt.Println("Oulalah no")
+    }
+    return warehouse
 }
