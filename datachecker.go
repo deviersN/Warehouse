@@ -11,6 +11,8 @@ func dataChecker(warehouse Warehouse) (bool) {
 	fmt.Println(size)
 	ret += checkEntrepot(warehouse)
 	ret += checkColis(warehouse, size)
+	ret += checkTranspalette(warehouse, size)
+	ret += checkCamion(warehouse, size)
 
 	switch ret {
 	case 0:
@@ -20,12 +22,55 @@ func dataChecker(warehouse Warehouse) (bool) {
 	}
 }
 
+func checkCamion(warehouse Warehouse, size Point) (ret int) {
+	ret = 0
+	var truck Point = warehouse.camion.Point
+	if warehouse.camion.load <= 500 {
+		printError(8)
+	} else if warehouse.camion.load < 100 {
+		printError(9)
+		ret = 1
+	}
+	if truck.x != 0 && truck.y != 0 &&
+		truck.x != size.x - 1 && truck.y != size.y - 1 {
+		printError(10)
+		ret = 1
+	}
+	return
+}
+
+func checkTranspalette(warehouse Warehouse, size Point) (ret int) {
+	ret = 0
+	var overlap = []Point{}
+
+	for _, v := range warehouse.transp {
+		if v.x < 0 || v.x >= size.x || v.y < 0 || v.y >= size.y {
+			printError(5)
+			ret = 1
+		}
+		for _, v2 := range warehouse.colis {
+			if (v.x == v2.x && v.y == v2.y) {
+				printError(6)
+				ret = 1
+			}
+		}
+		for _, v2 := range overlap {
+			if (v.x == v2.x && v.y == v2.y) {
+				printError(7)
+				ret = 1
+			}
+		}
+		overlap = append(overlap, v.Point)
+	}
+	return
+}
+
 func checkColis(warehouse Warehouse, size Point) (ret int) {
 	ret = 0
 	var overlap = []Point{}
 
 	for _, v := range warehouse.colis {
-		if v.x < 0 || v.x >= size.x {
+		if v.x < 0 || v.x >= size.x || v.y < 0 || v.y >= size.y {
 			printError(2)
 			ret = 1
 		}
@@ -55,15 +100,21 @@ func checkEntrepot(warehouse Warehouse) (ret int) {
 		printError(1)
 		ret = 1
 	}
-	return ret
+	return
 }
 
 func printError(index int) {
-	msg := [5]string {"Error: warehouse is not big enough.",
+	msg := [12]string {"Error: warehouse is not big enough.",
 		"Error: number of turns must be between 10 and 100 000.",
 		"Error: package out of the warehouse.",// SCP-Package has breached confineemnt. Iniciating facility-wide lockdown.
-		"Error: package is wrong color.",// U just go Jim Crow lawed //Apartheid intersifies, must separate.
-		"Error: packages overlapping."}
+		"Error: package is wrong color.",// U just go Jim Crow lawed
+		"Error: packages overlapping.",// Apartheid intersifies, must separate.
+		"Error: transpalette out of the warehouse.",
+		"Error: transpalette and package overlapping.",
+		"Error: transpalettes overlapping.",
+		"Warning: truck's load is very low.",
+		"Error: truck's load is too low to hold any package.",
+		"Error: truck's load point is in the center of the room or out of the warehouse."}
 
 	fmt.Println(msg[index])
 }

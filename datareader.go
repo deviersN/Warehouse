@@ -19,13 +19,9 @@ func dataReader(filename string) (bool, Warehouse) {
     scanner := bufio.NewScanner(file)
     for scanner.Scan() {
 		text := scanner.Text()
-        fmt.Println(text)
 
         lineType := identificator(text)
-        fmt.Println("id: ", lineType)
-
         warehouse = dataStorer(warehouse, lineType, text)
-        //	fmt.Sscanf(text, "%dx%dx%d", &nb1, &nb2, &nb3)
 	}
     fmt.Println(warehouse)
     if err := scanner.Err(); err != nil {
@@ -100,7 +96,7 @@ func dataStorer(warehouse Warehouse, lineType int, line string) (Warehouse) {
     case 4:
         fmt.Sscanf(line, "%d %d %d %d", &warehouse.camion.x, &warehouse.camion.y, &warehouse.camion.load, &warehouse.camion.cooldown)
     default:
-        fmt.Println("Oulalah no")
+        fmt.Println("Error: Invalid entry on line :", line)
     }
     return warehouse
 }

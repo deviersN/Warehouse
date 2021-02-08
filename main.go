@@ -1,7 +1,6 @@
 package main
 
 import (
-    "fmt"
 	"os"
 )
 
@@ -10,12 +9,16 @@ func main() {
 	argv := os.Args
     var warehouse Warehouse
 
-	fmt.Println(argv)
+//	fmt.Println(argv)
 	if len(argv) >= 2 {
 		ret, warehouse = dataReader(argv[1])
-		fmt.Println(ret)
-		if (ret) {
-			ret = dataChecker(warehouse)
+//		fmt.Println(ret)
+		if (ret == false) {
+			return
+		}
+		ret = dataChecker(warehouse)
+		if (ret == false) {
+			return
 		}
 	}
 }
