@@ -7,7 +7,7 @@ import (
     "os"
 )
 
-func dataReader(filename string) (bool) {
+func dataReader(filename string) (bool, Warehouse) {
     var warehouse Warehouse
 
     file, err := os.Open(filename)
@@ -30,9 +30,9 @@ func dataReader(filename string) (bool) {
     fmt.Println(warehouse)
     if err := scanner.Err(); err != nil {
         log.Fatal(err)
-        return false
+        return false, warehouse
     }
-    return true
+    return true, warehouse
 }
 
 /*
