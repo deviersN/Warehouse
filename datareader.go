@@ -17,13 +17,12 @@ func dataReader(filename string) (bool, Warehouse) {
     defer file.Close()
 
     scanner := bufio.NewScanner(file)
-    for scanner.Scan() {
+    for id:= 0; scanner.Scan(); id++ {
 		text := scanner.Text()
 
         lineType := identificator(text)
-        warehouse = dataStorer(warehouse, lineType, text)
+        warehouse = dataStorer(warehouse, lineType, text, id)
 	}
-    fmt.Println(warehouse)
     if err := scanner.Err(); err != nil {
         log.Fatal(err)
         return false, warehouse
@@ -81,12 +80,13 @@ func compareArray(array_1 [4]int, array_2 [4]int, size int) (ret bool) {
     return
 }
 
-func dataStorer(warehouse Warehouse, lineType int, line string) (Warehouse) {
+func dataStorer(warehouse Warehouse, lineType int, line string, id int) (Warehouse) {
     switch lineType {
     case 1:
         fmt.Sscanf(line, "%d %d %d", &warehouse.entrepot.x, &warehouse.entrepot.y, &warehouse.entrepot.turns)
     case 2:
         var colis Colis
+        colis.id = id
         fmt.Sscanf(line, "%s %d %d %s", &colis.name, &colis.x, &colis.y, &colis.color)
         warehouse.colis = append(warehouse.colis, colis)
     case 3:
