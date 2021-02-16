@@ -24,5 +24,6 @@ func main() {
 		}
 		view = buildMap(warehouse)
 		fmt.Println(view)
+		core(warehouse, view)
 	}
 }

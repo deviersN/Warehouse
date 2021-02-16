@@ -92,6 +92,8 @@ func dataStorer(warehouse Warehouse, lineType int, line string, id int) (Warehou
     case 3:
         var transpalette Transpalette
         fmt.Sscanf(line, "%s %d %d", &transpalette.name, &transpalette.x, &transpalette.y)
+        transpalette.target.x = -1
+        transpalette.target.y = -1
         warehouse.transp = append(warehouse.transp, transpalette)
     case 4:
         fmt.Sscanf(line, "%d %d %d %d", &warehouse.camion.x, &warehouse.camion.y, &warehouse.camion.load, &warehouse.camion.cooldown)
