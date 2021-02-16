@@ -29,10 +29,26 @@ func pickPackage(colis []Colis, loc Point) (id int) {
 	return
 }
 
+func loadPackage(s []Colis, index int) ([]Colis) {
+    return append(s[:index], s[index+1:]...)
+}
+
+func dropPackage(warehouse Warehouse, index int) (Warehouse) {
+	for i := range warehouse.colis {
+		if warehouse.colis[i].id == index {
+			warehouse.colis = loadPackage(warehouse.colis, i)
+			break
+		}
+	}
+	return warehouse
+}
+
 func moveTransp(warehouse Warehouse, view [][]int8) (Warehouse, [][]int8) {
 	for v := range warehouse.transp {
 		if beside(warehouse.transp[v].Point, warehouse.transp[v].target) {
 			if compareCoords(warehouse.transp[v].target, warehouse.camion.Point) == true {
+				warehouse = dropPackage(warehouse, warehouse.transp[v].loaded)
+				warehouse.transp[v].target = Point{-1, -1}
 				// leave
 			} else {
 				id := pickPackage(warehouse.colis, warehouse.transp[v].target)
@@ -88,10 +104,11 @@ func lockOnTarget(transp Transpalette, warehouse Warehouse) (Transpalette) {
 		x := absolute(transp.x - warehouse.colis[v].x)
 		y := absolute(transp.y - warehouse.colis[v].y)
 		dist := pythagoras(float64(x), float64(y))
+		fmt.Println(x, y, dist)
 		if dist < closest {
 			closest = dist
-			transp.target.x = x
-			transp.target.y = y
+			transp.target.x = warehouse.colis[v].x
+			transp.target.y = warehouse.colis[v].y
 			fmt.Println(transp)
 		}
 	}
