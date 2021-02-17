@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+
+  warehouse:
+    image: warehouse:latest
+    build:
+      context: ./
+      dockerfile: docker/Dockerfile
+    container_name: warehouse
+    volumes:
+     - ./resources:/resources/
+    expose:
+      - 8888
+    ports:
+      - '8888:8888'
+    networks:
+      warehouse-network:
+        aliases:
+          - warehoue
+
+
+networks:
+  warehouse-network:
+    external: true
+
