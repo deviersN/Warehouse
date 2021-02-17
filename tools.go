@@ -46,3 +46,18 @@ func absolute(src int) (int) {
 	}
 	return src
 }
+
+func weightWatcher(color string) (weight int) {
+	capcolor := myStrCapitalize(color)
+	switch (capcolor) {
+	case "YELLOW":
+		weight = 100
+	case "GREEN":
+		weight = 200
+	case "BLUE":
+		weight = 500
+	default:
+		weight = 0
+	}
+	return
+}

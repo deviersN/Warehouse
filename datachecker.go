@@ -102,19 +102,3 @@ func checkEntrepot(warehouse Warehouse) (ret int) {
 	}
 	return
 }
-
-func printError(index int) {
-	msg := [12]string {"Error: warehouse is not big enough.",
-		"Error: number of turns must be between 10 and 100 000.",
-		"Error: package out of the warehouse.",// SCP-Package has breached confineemnt. Iniciating facility-wide lockdown.
-		"Error: package is wrong color.",// U just go Jim Crow lawed
-		"Error: packages overlapping.",// Apartheid intersifies, must separate.
-		"Error: transpalette out of the warehouse.",
-		"Error: transpalette and package overlapping.",
-		"Error: transpalettes overlapping.",
-		"Warning: truck's load is very low.",
-		"Error: truck's load is too low to hold any package.",
-		"Error: truck's load point is in the center of the room or out of the warehouse."}
-
-	fmt.Println(msg[index])
-}
