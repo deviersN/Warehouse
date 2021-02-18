@@ -58,7 +58,7 @@ Execute the following command to build the Docker container.
 Then to finish, execute a last command to launch the Docker container.
 
 ```sh
-      docker-compose run
+      docker-compose up
 ```
 
 Make sure that an instruction file named **instructions.txt** is present in the [resources](./resources) folder so that
