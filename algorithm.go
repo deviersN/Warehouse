@@ -1,11 +1,12 @@
 package main
 
 import (
-	
+
 )
 
 func core(warehouse Warehouse, view [][]int8) {
 	turn := 1
+	printMap(view)
 	for gameOn(warehouse, turn) == true {
 		printTour(turn)
 		for v := range warehouse.transp {
@@ -17,7 +18,7 @@ func core(warehouse Warehouse, view [][]int8) {
 			printTruckStatus("WAITING", warehouse.camion.load, warehouse.camion.loadIn)
 		}
 		turn = turn + 1
-//		printMap(view)
+		printMap(view)
 	}
 }
 
@@ -75,9 +76,9 @@ func moveTransp(warehouse Warehouse, view [][]int8) (Warehouse, [][]int8) {
 				}
 			} else if warehouse.transp[v].x != warehouse.transp[v].target.x {
 				if warehouse.transp[v].x > warehouse.transp[v].target.x { //Go left
-					view[warehouse.transp[v].y][warehouse.transp[v].x - 1] = 0
-					view[warehouse.transp[v].y][warehouse.transp[v].x] = 2
-					warehouse.transp[v].x += 1
+					view[warehouse.transp[v].y][warehouse.transp[v].x] = 0
+					view[warehouse.transp[v].y][warehouse.transp[v].x-1] = 2
+					warehouse.transp[v].x -= 1
 				} else { //Go right
 					view[warehouse.transp[v].y][warehouse.transp[v].x] = 0
 					view[warehouse.transp[v].y][warehouse.transp[v].x + 1] = 2

@@ -69,23 +69,27 @@ func checkColis(warehouse Warehouse, size Point) (ret int) {
 	ret = 0
 	var overlap = []Point{}
 
-	for _, v := range warehouse.colis {
-		if v.x < 0 || v.x >= size.x || v.y < 0 || v.y >= size.y {
-			printError(2)
-			ret = 1
-		}
-		capColor := myStrCapitalize(v.color)
-		if capColor != "GREEN" && capColor != "YELLOW" && capColor != "BLUE" {
-			printError(3)
-			ret = 1
-		}
-		for _, v2 := range overlap {
-			if (v.x == v2.x && v.y == v2.y) {
-				printError(4)
+	if len(warehouse.colis) == 0 {
+		ret = 1
+	} else {
+		for _, v := range warehouse.colis {
+			if v.x < 0 || v.x >= size.x || v.y < 0 || v.y >= size.y {
+				printError(2)
 				ret = 1
 			}
+			capColor := myStrCapitalize(v.color)
+			if capColor != "GREEN" && capColor != "YELLOW" && capColor != "BLUE" {
+				printError(3)
+				ret = 1
+			}
+			for _, v2 := range overlap {
+				if (v.x == v2.x && v.y == v2.y) {
+					printError(4)
+					ret = 1
+				}
+			}
+			overlap = append(overlap, v.Point)
 		}
-		overlap = append(overlap, v.Point)
 	}
 	return
 }

@@ -17,13 +17,13 @@ func printActionPackage(transp string, action string, colis string, color string
 }
 
 func printTruckStatus(action string, load int, loadIn int) {
-	fmt.Println("camion", action, load, loadIn, "\n")
+	fmt.Println("camion", action, load, loadIn)
 }
 
 func printError(index int) {
 	msg := [12]string {"Error: warehouse is not big enough.",
 		"Error: number of turns must be between 10 and 100 000.",
-		"Error: package out of the warehouse.",// SCP-Package has breached confineemnt. Iniciating facility-wide lockdown.
+		"Error: package out of the warehouse.",// SCP-Package has breached confinement. Iniciating facility-wide lockdown.
 		"Error: package is wrong color.",// U just go Jim Crow lawed
 		"Error: packages overlapping.",// Apartheid intersifies, must separate.
 		"Error: transpalette out of the warehouse.",

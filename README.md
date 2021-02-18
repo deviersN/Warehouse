@@ -4,6 +4,7 @@ This project emulates the internal management of a warehouse, where packages mus
 forklifts. The point of the exercise is to take in account the weight and distance of each package to optimize the trips
 and fill the truck.
 
+
 ## Compilation and execution
 
 This project realised in Go is compiled as following :
@@ -28,6 +29,7 @@ $ ./Warehouse ./resources/[entry.txt]
 
 - Finally, the truck's loading point, maximum load and reload timeout appear on the last line.
   "3 4 4000 5" represents a truck whose loading coordinates are on 3-4, can wear up to 4 tons of packages and comes back 5 turns after being sent.
+
 
 ## Docker : compilation and execution
 
@@ -93,7 +95,32 @@ To delete a specific image, simply list the images and delete the image using it
       docker rmi <IMAGE_NAME / IMAGE_ID>
 ```
 
+
 ## Project organisation
+
+### Main sections
+
+main.go : Declares the basic data structures, calls the various sections of the program.
+
+datareader.go : Reads the file given as argument, identificates each input to store it in the data structure.
+
+datachecker.go : Checks the validity of the data stored
+
+mapgenerator.go : Generates a map representing the placement of the items in the warehouse.
+
+algorithm.go : Actual process of moving the packages around the warehouse.
+
+
+### Secondary files
+
+output.go : Regroups the prints all around the project
+
+tools.go : Regroups a few basic functions
+
+structure.go : Regroups the structures used in the data storing unit.
+
+
+## Technical documentation
 
 ### Arguments handling
 
@@ -105,6 +132,7 @@ Then the datachecker.go file is being charged of verifying the plausability of t
 coordinates within the walls of the warehouse, is the delivery point of the truck alongside the walls ?
 
 Once the checking is done, the true algorithm may begin.
+
 
 ### Structures used
 
@@ -120,11 +148,13 @@ There is :
       - An array of Transpalette structures holding the data of the different forklifts: their name, coordinates, coordinates of their target and the index of the potential package loaded in.
       - The Camion structure representing the truck: it holds its loading coordinates, the maximum load that can be held by the truck, the time the truck takes to come back empty in number of turns and the sum of the weight of the packages already inside the truck.
 
+
 ### Core algorithm
 
 As long as any of the end-of-game conditions are met, the program goes on.
 First, we check the forklifts objective. If they are already aiming for a target - whether it is a package or the truck's loading zone - they will move 1 step towards it and announce it by printing its move.
 However, if no target has been set yet the forklift will find the closest package and lock onto it in order to go pick it up. To do that, it determines its distance to each package using Pythagoras' theorem.
+
 
 ### Unit Testing
 

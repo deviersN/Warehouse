@@ -6,8 +6,8 @@ import (
 
 func TestEntrepot(t *testing.T) {
 	var warehouse Warehouse
-	var entrepot Entrepot = Entrepot{Point{5, 5}, 1000}
-	data := "data.txt"
+	var entrepot Entrepot = Entrepot{Point{5, 5}, 15}
+	data := "resources/instructions.txt"
 	_, warehouse = dataReader(data)
 	if warehouse.entrepot != entrepot {
 		t.Errorf("L'entrepot lu n'est pas bon")
@@ -18,7 +18,7 @@ func TestEntrepot(t *testing.T) {
 func TestCamion(t *testing.T) {
 	var warehouse Warehouse
 	var camion Camion = Camion{Point{3, 4}, 4000, 5, 0}
-	data := "data.txt"
+	data := "resources/instructions.txt"
 	_, warehouse = dataReader(data)
 	if warehouse.camion != camion {
 		t.Errorf("Le camion lu n'est pas bon")
@@ -32,7 +32,7 @@ func TestColis(t *testing.T) {
 		Colis{"paquet", Point{2,2}, "BLUE", 2},
 		Colis{"deadpool", Point{0,3}, "yellow", 3},
 		Colis{"colère_DU_dragon", Point{4,1}, "green", 4}}
-	data := "data.txt"
+	data := "resources/instructions.txt"
 	_, warehouse = dataReader(data)
 	for i, el := range warehouse.colis {
 		if el != colis[i] {
@@ -43,8 +43,8 @@ func TestColis(t *testing.T) {
 
 func TestTranspalette(t *testing.T) {
 	var warehouse Warehouse
-	trans := [1]Transpalette{{"transpalette_1", Point{0,0}, Point{0,0}, 0}}
-	data := "data.txt"
+	trans := [1]Transpalette{{"transpalette_1", Point{0,0}, Point{-1,-1}, 0}}
+	data := "resources/instructions.txt"
 	_, warehouse = dataReader(data)
 	for i, el := range warehouse.transp {
 		if el != trans[i] {
