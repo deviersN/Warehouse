@@ -125,3 +125,7 @@ There is :
 As long as any of the end-of-game conditions are met, the program goes on.
 First, we check the forklifts objective. If they are already aiming for a target - whether it is a package or the truck's loading zone - they will move 1 step towards it and announce it by printing its move.
 However, if no target has been set yet the forklift will find the closest package and lock onto it in order to go pick it up. To do that, it determines its distance to each package using Pythagoras' theorem.
+
+### Unit Testing
+
+In order to test the validity of the parser, we made some unit testing with variable cases of wrong and good datas. Those testing will check in depth the functions and what they return. 
